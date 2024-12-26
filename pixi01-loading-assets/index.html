@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Metadata for the document -->
+    <meta charset="UTF-8" />
+    <!-- Character encoding for the document -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Makes the page responsive -->
+    <title>Document</title>
+    <!-- Including PixiJS library -->
+    <script src="https://cdn.jsdelivr.net/npm/pixi.js@8.x/dist/pixi.min.js"></script>
+  </head>
+  <body>
+    <script type="module">
+      (async () => {
+        // Importing PixiJS core classes
+        const Application = PIXI.Application;
+        const Assets = PIXI.Assets;
+        const Sprite = PIXI.Sprite;
+
+        // Creating a new PixiJS application instance
+        const app = new Application();
+        await app.init({ resizeTo: window, backgroundColor: "0xf2efee" }); // Initializing app with a resizable window and background color
+        document.body.appendChild(app.canvas); // Adding the canvas to the document body
+
+
+          // Defining a manifest for assets
+          const manifest = {
+          bundles: [
+            {
+              name: "fruits", // Bundle name
+              assets: [
+                { alias: "apple", src: "./assets/fruits/apple-fruit-96.png" },
+                { alias: "banana", src: "./assets/fruits/banana-96.png" },
+                { alias: "cat", src: "./assets/fruits/cat-80.png" },
+                { alias: "dog", src: "./assets/fruits/dog-80.png" },
+                {
+                  alias: "elephant",
+                  src: "./assets/fruits/elephant-100.png",
+                },
+                { alias: "fan", src: "./assets/fruits/fan-80.png" },
+                { alias: "grapes", src: "./assets/fruits/grapes-96.png" },
+              ],
+            },
+          ],
+        };
+
+        // Loading assets via the manifest
+        // Note: All other loading processes must be commented out when using `Assets.init`
+        Assets.init({ manifest }); // Initialize the Assets loader with the manifest
+        const fruitsAssets = await Assets.loadBundle("fruits"); // Load the "fruits" bundle
+        console.log(fruitsAssets); // Log the loaded fruit assets for debugging
+
+        // Creating sprites for the loaded fruit assets
+        const apple = new PIXI.Sprite(fruitsAssets.apple);
+        const banana = new PIXI.Sprite(fruitsAssets.banana);
+        const cat = new PIXI.Sprite(fruitsAssets.cat);
+        const dog = new PIXI.Sprite(fruitsAssets.dog);
+        const elephant = new PIXI.Sprite(fruitsAssets.elephant);
+        const fan = new PIXI.Sprite(fruitsAssets.fan);
+        const grapes = new PIXI.Sprite(fruitsAssets.grapes);
+
+
+        banana.x = 100;
+        cat.x = 200;
+        dog.x = 300
+        elephant.x= 400;
+        fan.x = 500;
+        grapes.x = 600;
+
+        // Adding the fruit sprites to the stage
+        app.stage.addChild(apple, banana, cat, dog, elephant, fan, grapes);
+
+        // Loading a single asset (bunny image)
+        const bunnyTexture = await Assets.load("./assets/bunny.png"); // Load the bunny texture
+        const bunny = new Sprite(bunnyTexture); // Create a sprite using the bunny texture
+        bunny.y = 200;
+        app.stage.addChild(bunny); // Add the bunny sprite to the stage
+
+        // Loading a bundle of assets
+        Assets.addBundle("christmas", [
+          { alias: "Santa", src: "./assets/christmas/santa-100.png" },
+          { alias: "Cherry", src: "./assets/christmas/cherry-100.png" },
+          { alias: "Tree", src: "./assets/christmas/christmas-tree-96.png" },
+          { alias: "Raindeer", src: "./assets/christmas/reindeer-100.png" },
+        ]); // Adding a bundle named "christmas" with multiple assets
+
+        const assets = await Assets.loadBundle("christmas"); // Loading the "christmas" bundle
+
+        // Creating and positioning sprites from the loaded assets
+        const santa = new PIXI.Sprite(assets.Santa);
+        const cherry = new PIXI.Sprite(assets.Cherry);
+        const tree = new PIXI.Sprite(assets.Tree);
+        const raindeer = new PIXI.Sprite(assets.Raindeer);
+
+        santa.x = 100; // Positioning Santa sprite
+        santa.y = 200; // Positioning Santa sprite
+        cherry.x = 200; // Positioning Cherry sprite
+        cherry.y = 200; // Positioning Cherry sprite
+        tree.x = 300; // Positioning Tree sprite
+        tree.y = 200; // Positioning Tree sprite
+        raindeer.x = 400; // Positioning Raindeer sprite
+        raindeer.y = 200; // Positioning Raindeer sprite
+
+        app.stage.addChild(santa, cherry, tree, raindeer); // Adding all sprites to the stage
+        // END OF SCRIPT
+      })();
+    </script>
+  </body>
+</html>
